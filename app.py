@@ -1,11 +1,14 @@
 import altair as alt
 import pandas as pd
 from dash import Dash, dcc, html, Input, Output
-alt.data_transformers.enable('data_server')
-alt.renderers.enable('mimetype')
+# alt.data_transformers.enable('data_server')
+# alt.renderers.enable('mimetype')
 
     
 df = pd.read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv")
+columns = ["track_popularity", "liveness"]
+df = df[columns]
+df = df.sample(4500, random_state=123)
 
 
 def plot_altair(xmax, data=df.copy()):
@@ -22,7 +25,7 @@ app.layout = html.Div([
             id='scatter',
             srcDoc=plot_altair(xmax=0),
             style={'border-width': '0', 'width': '100%', 'height': '400px'}),
-        dcc.Slider(id='xslider', min=0, max=100)])
+        dcc.Slider(id='xslider', value=50, min=0, max=100)])
         
 @app.callback(
     Output('scatter', 'srcDoc'),
