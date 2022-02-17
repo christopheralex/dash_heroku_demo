@@ -12,7 +12,8 @@ df = df.sample(4500, random_state=123)
 
 
 def plot_altair(xmax, data=df.copy()):
-    chart = alt.Chart(data[data["track_popularity"] <= xmax]).mark_line().encode(
+    chart = alt.Chart(data[data["track_popularity"] <= xmax],
+    title = "Spotify song popularity relation to liveness").mark_line().encode(
         x=alt.X('track_popularity',  bin=alt.Bin(maxbins=20)),
         y = "mean(liveness)")
     return chart.to_html()
